@@ -1,6 +1,27 @@
 play + sbt native packager + ansible
 =====================================
 
+### Usage :
+
+```
+cd sbt-native-packager-showcase/ansible
+
+ansible-galaxy install --role-file requirements.yml --roles-path roles
+
+```
+
+Usual mode : should start
+
+```
+ansible-playbook  -v -i local/inventory local.yml
+```
+
+Abnormal mode (emulate bad ansible provision) : should fail at startup
+
+```
+ansible-playbook  -v -i local/inventory local.yml --extra-vars "app_env=invalid"
+```
+
 ### Wanted scenario
 
 install app => ansible provision => start app
@@ -8,4 +29,14 @@ install app => ansible provision => start app
 ### Let do it with sbt native packager :
 
 #### V 1.1.0 :
+
+???
+
+#### V 1.1.1 :
+
+???
+
+#### V 1.2.x :
+
+???
 

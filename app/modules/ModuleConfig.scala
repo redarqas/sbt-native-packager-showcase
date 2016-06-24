@@ -6,7 +6,6 @@ import com.typesafe.config.Config
 
 @Singleton
 class ModuleConfig {
-
   def loadConfig() : Config = {
     val config = com.typesafe.config.ConfigFactory.parseFile(new java.io.File("/var/novapost/showcase/showcase.yml"))
     if(config.isEmpty) {
@@ -16,7 +15,5 @@ class ModuleConfig {
     }
     config
   }
-
   loadConfig()
-
 }
