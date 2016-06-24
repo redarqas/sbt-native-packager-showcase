@@ -1,0 +1,35 @@
+---
+
+- name: find debian package
+  shell: find {{ app_src_path }} -name '*.deb' -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d ' '
+  register: app_find_debian_package
+  changed_when: False
+  delegate_to: localhost
+
+- name: set debian package path on localhost
+  set_fact:
+    app_deb_path: '{{ app_find_debian_package.get("stdout", "/dev/null") }}'
+  delegate_to: localhost
+
+- name: Build debian package
+  when: not app_find_debian_package.get('stdout_lines', '')
+  shell: "{{ app_build_command }}"
+  args:
+    chdir: "{{ app_src_path }}"
+  delegate_to: localhost
+
+- name: find built debian package
+  shell: find {{ app_src_path }} -name '*.deb' -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d ' '
+  changed_when: False
+  register: app_find_debian_package
+  delegate_to: localhost
+
+- name: upload debian package
+  copy:
+    src: '{{ app_find_debian_package.get("stdout", "/dev/null") }}'
+    dest: /tmp/app.deb
+
+- name: install debian package
+  apt:
+    deb: /tmp/app.deb
+    dpkg_options: 'force-confnew'

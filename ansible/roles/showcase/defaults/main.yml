@@ -1,0 +1,20 @@
+---
+
+app_path: /var/novapost/supernova
+
+app_src_path : '{{ role_path }}/../../../'
+
+showcase_protocol: http
+showcase_host: localhost
+showcase_port: 8888
+showcase_adminPort: 8888
+showcase_version: local
+
+config_configPath: "/var/novapost/supernova/application.conf"
+config_maxDiskBuffer: 4096M
+config_secret: "36rhql`;cdnXqZNF<=Z5MaGF2Xr>Xrn/<2vvbCqeM;robf7ihx<OE[XCo3<K:DDh"
+config_java_opts:
+  - "-Xms32m"
+  - "-Xmx512m"
+  - "-XX:+UseG1GC"
+  - "-Dsun.net.http.allowRestrictedHeaders=true"

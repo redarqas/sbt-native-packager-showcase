@@ -1,0 +1,101 @@
+---
+
+- name: check showcase pidfile
+  stat: path=/var/run/showcase/play.pid
+  register: showcase_stat_pidfile
+
+- name: check showcase process exists
+  shell: test -d /proc/$(</var/run/showcase/play.pid)
+  register: showcase_running_state
+  args:
+    executable: /bin/bash
+  when: showcase_stat_pidfile.stat.exists
+  failed_when: False
+  changed_when: False
+
+
+- name: Clean running supenova pid
+  shell: rm /var/run/showcase/play.pid
+  args:
+    executable: /bin/bash
+  when: showcase_stat_pidfile.stat.exists and showcase_running_state.get('rc', 0) != 0
+
+- name: Create group nova
+  group:
+    name: nova
+    gid: 501
+    state: present
+  register: nova_group_created
+
+- name: Create user nova
+  user:
+    name: nova
+    group: nova
+    uid: 501
+    state: present
+  when: nova_group_created|changed
+
+- name: Create config location
+  file: path=/var/novapost/showcase owner=nova group=nova state=directory
+
+- name: Play setup
+  template: src=application.template.conf dest=/var/novapost/showcase/application.conf  backup=yes
+  tags: config, play
+  notify: Restart showcase
+
+- name: Config setup
+  template: src=showcase.template.yml dest=/var/novapost/showcase/showcase.yml backup=yes
+  tags: config
+  notify: Restart showcase
+
+- name: JvmOpts setup
+  template: src=showcase.jvmopts.template dest=/var/novapost/showcase/jvmopts backup=yes
+  tags: config
+  notify: Restart showcase
+
+- name: Version to install
+  debug: var=app_showcase_version
+
+- include: build-and-upload.yml
+  when: app_showcase_version == 'local'
+
+- name: Install last debian package
+  apt:
+    name: showcase
+    force: yes
+    update_cache: yes
+    state: latest
+  when: app_showcase_version == false
+  tags: apt
+  notify: Restart showcase
+
+- name: Install specific debian package
+  apt:
+    name: showcase={{ app_showcase_version }}
+    force: yes
+  when: app_showcase_version not in (false, 'local')
+  tags: apt
+
+- name: Start service
+  service: name=showcase state=started
+
+- meta: flush_handlers
+
+- block:
+  - name: Waiting for port to be bound
+    wait_for: port=8888 delay=10 timeout=30
+    changed_when: false
+    register: app_port
+
+  - name: Check healthchecks
+    action: uri url={{ app_showcase_protocol }}://{{ app_showcase_host }}:{{ app_showcase_port }}/healthchecks?pretty=true validate_certs=false
+    retries: 15
+    delay: 1
+    register: app_healthcheck
+    tags: hc
+
+  always:
+  - name: Print boot_error if port bind or healthcheck failed
+    command: echo "showcase failed to start"
+    when: app_port.get('failed', False) or app_healthcheck.get('failed', False)
+    failed_when: true

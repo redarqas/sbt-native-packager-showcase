@@ -1,0 +1,16 @@
+---
+
+- hosts: localhost
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - novafloss.boot
+
+- hosts: showcase
+  vars:
+    showcase_version: local
+
+  roles:
+  - novafloss.oracle-java
+  - showcase

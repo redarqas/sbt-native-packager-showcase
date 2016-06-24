@@ -1,0 +1,5 @@
+[flow]
+showcase.lxc lxc_template_options='-r wheezy'
+
+[all:vars]
+apt_cache_valid_time=0

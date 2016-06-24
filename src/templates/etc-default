@@ -1,0 +1,11 @@
+# Setting JAVA_OPTS
+
+if [ -f /var/novapost/showcase/jvmopts ]
+
+ then JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $(sed -e '/\s*#.*$/d' -e '/^\s*$/d' /var/novapost/showcase/jvmopts | tr  '\n' ' ') $JAVA_OPTS"
+ else JAVA_OPTS="-Dpidfile.path=/var/run/${{app_name}}/play.pid $JAVA_OPTS"
+
+fi
+
+# For rpm/systemv you need to set the PIDFILE env variable as well
+PIDFILE="/var/run/${{app_name}}/play.pid"

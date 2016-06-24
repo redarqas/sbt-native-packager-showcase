@@ -1,0 +1,6 @@
+---
+
+- name: Restart showcase
+  service:
+    name: showcase
+    state: restarted

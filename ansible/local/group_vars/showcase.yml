@@ -1,0 +1,9 @@
+---
+
+app_showcase_version: local
+
+config_java_opts:
+  - "-Xms32m"
+  - "-Xmx64m"
+  - "-XX:+UseG1GC"
+  - "-Dsun.net.http.allowRestrictedHeaders=true"
