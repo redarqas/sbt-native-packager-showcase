@@ -1,4 +1,4 @@
-[flow]
+[showcase]
 showcase.lxc lxc_template_options='-r wheezy'
 
 [all:vars]

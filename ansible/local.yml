@@ -13,4 +13,5 @@
 
   roles:
   - novafloss.oracle-java
-  - showcase
+  - role: showcase
+    app_build_command: sbt debian:packageBin

@@ -6,3 +6,8 @@ target
 /.project
 /.settings
 /RUNNING_PID
+ansible/.installed_roles
+*.pyc
+ansible/roles/*.*
+ansible/.cache
+ansible/*.retry

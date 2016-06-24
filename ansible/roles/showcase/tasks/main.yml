@@ -54,10 +54,13 @@
   notify: Restart showcase
 
 - name: Version to install
-  debug: var=app_showcase_version
+  debug: var=showcase_version
+
+- name: Env situation
+  debug: var=app_env
 
 - include: build-and-upload.yml
-  when: app_showcase_version == 'local'
+  when: showcase_version == 'local'
 
 - name: Install last debian package
   apt:
@@ -65,7 +68,7 @@
     force: yes
     update_cache: yes
     state: latest
-  when: app_showcase_version == false
+  when: showcase_version == false
   tags: apt
   notify: Restart showcase
 
@@ -73,7 +76,7 @@
   apt:
     name: showcase={{ app_showcase_version }}
     force: yes
-  when: app_showcase_version not in (false, 'local')
+  when: showcase_version not in (false, 'local')
   tags: apt
 
 - name: Start service
@@ -88,7 +91,7 @@
     register: app_port
 
   - name: Check healthchecks
-    action: uri url={{ app_showcase_protocol }}://{{ app_showcase_host }}:{{ app_showcase_port }}/healthchecks?pretty=true validate_certs=false
+    action: uri url={{ showcase_protocol }}://{{ showcase_host }}:{{ showcase_port }} validate_certs=false
     retries: 15
     delay: 1
     register: app_healthcheck

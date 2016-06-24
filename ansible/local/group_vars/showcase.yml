@@ -1,6 +1,6 @@
 ---
 
-app_showcase_version: local
+showcase_version: local
 
 config_java_opts:
   - "-Xms32m"

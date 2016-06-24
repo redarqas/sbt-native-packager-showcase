@@ -1,5 +1,7 @@
 ---
 
+app_env: valid
+
 app_path: /var/novapost/showcase
 
 app_src_path : '{{ role_path }}/../../../'
