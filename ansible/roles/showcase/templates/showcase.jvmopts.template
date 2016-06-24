@@ -1,5 +1,4 @@
 -Dhttp.port={{app_supernova_port}}
--Dlogger.file={{log_file_filePath}}
 -Dconfig.file={{config_configPath}}
 {% for opt in config_java_opts -%}
 {{ opt }}

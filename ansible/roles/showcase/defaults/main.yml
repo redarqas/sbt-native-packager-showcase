@@ -1,6 +1,6 @@
 ---
 
-app_path: /var/novapost/supernova
+app_path: /var/novapost/showcase
 
 app_src_path : '{{ role_path }}/../../../'
 
@@ -10,7 +10,7 @@ showcase_port: 8888
 showcase_adminPort: 8888
 showcase_version: local
 
-config_configPath: "/var/novapost/supernova/application.conf"
+config_configPath: "/var/novapost/showcase/application.conf"
 config_maxDiskBuffer: 4096M
 config_secret: "36rhql`;cdnXqZNF<=Z5MaGF2Xr>Xrn/<2vvbCqeM;robf7ihx<OE[XCo3<K:DDh"
 config_java_opts:

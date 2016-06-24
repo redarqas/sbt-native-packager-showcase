@@ -14,7 +14,7 @@
   changed_when: False
 
 
-- name: Clean running supenova pid
+- name: Clean running showcase pid
   shell: rm /var/run/showcase/play.pid
   args:
     executable: /bin/bash
