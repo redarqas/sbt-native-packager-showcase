@@ -1,5 +1,7 @@
 play + sbt native packager + ansible
-=====================================
+====================================
+
+Targeted os (debian wheezy)
 
 ### Usage :
 
@@ -28,9 +30,17 @@ install app => ansible provision => start app
 
 ### Let do it with sbt native packager :
 
+
+
 #### V 1.1.0 :
 
-???
+#### Provision first : (tag -  )
+
+native packager starts the app automatically, then we changed our wanted scenario to : 
+
+ansible provision => install app (start auto)
+
+The risky thing with this is to have ansible provision overridden by app install defaults. 
 
 #### V 1.1.1 :
 
