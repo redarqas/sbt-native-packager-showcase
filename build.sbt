@@ -41,6 +41,8 @@ packageDescription in Debian := "Showcase packet"
 
 packageSummary := "Showcase cases"
 
+debianNativeBuildOptions in Debian := Seq("-Zgzip", "-z3")
+
 val SNAPSHOT_PATTERN : Pattern = Pattern.compile("(.*)[\\-\\+]SNAPSHOT")
 val BETA_PATTERN : Pattern = Pattern.compile("(.*?)([\\.\\-_]?)(alpha|a|beta|b|milestone|m|cr|rc)(.*)", Pattern.CASE_INSENSITIVE)
 
