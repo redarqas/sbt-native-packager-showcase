@@ -49,7 +49,7 @@ On install we got the following error on wheezy :
 
 `Unable to install package: No debian archive, missing data.tar.{bz2,xz,lzma,gz,uncompressed,}`
 
-To solve this we added `debianNativeBuildOptions in Debian := Seq("-Zgzip", "-z3")`  to ou build.sbt
+[To solve this we added](http://www.scala-sbt.org/sbt-native-packager/formats/debian.html) `debianNativeBuildOptions in Debian := Seq("-Zgzip", "-z3")`  to ou build.sbt
 
 Then wae obtained the following error : 
  
@@ -61,5 +61,26 @@ V 1.1.1 is buggy and we can not use it even if the provision first scenario.
 
 #### V 1.2.x :
 
-???
+#### Scenario 1, Provision first : (tag - v1.2.0-M3_scn1)
+
+Without `daemonStdoutLogFile` install is working 
+
+With `daemonStdoutLogFile` the app is not started :
+
+```
+/etc/init.d/showcase start
+[ ok ] Starting: showcase.
+```
+The start command is ok, however the app is not started. 
+
+The error is in the `/etc/init.d/showcase` script : 
+ 
+```
+start-stop-daemon --chdir /var/novapost/showcase --chuid nova --pidfile /var/run/showcase/play.pid --startas /var/novapost/showcase/bin/showcase --start -- ' >> /var/log/showcase/boot.log 2>&1'
+
+Bad root server path: /var/novapost/showcase/ >> /var/log/showcase/boot.log 2>&1
+```
+
+
+
 

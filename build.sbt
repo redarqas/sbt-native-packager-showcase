@@ -2,13 +2,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.regex.{Matcher, Pattern}
 
-import com.typesafe.sbt.packager.archetypes.ServerLoader
 
 name := """showcase"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val showcase = (project in file(".")).enablePlugins(PlayScala, SbtWeb, JavaServerAppPackaging, DebianPlugin)
+lazy val showcase = (project in file(".")).enablePlugins(PlayScala, SbtWeb, JavaServerAppPackaging, DebianPlugin, SystemVPlugin)
 
 scalaVersion := "2.11.7"
 
@@ -22,8 +21,6 @@ libraryDependencies ++= Seq(
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 defaultLinuxInstallLocation := "/var/novapost"
-
-serverLoading in Debian := ServerLoader.SystemV
 
 version in Debian := getDebianVersion(version.value, true, new Date())
 
@@ -40,6 +37,8 @@ packageDescription := "Showcase package"
 packageDescription in Debian := "Showcase packet"
 
 packageSummary := "Showcase cases"
+
+daemonStdoutLogFile := Some("boot.log")
 
 debianNativeBuildOptions in Debian := Seq("-Zgzip", "-z3")
 
