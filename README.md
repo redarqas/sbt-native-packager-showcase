@@ -86,3 +86,16 @@ Bad root server path: /var/novapost/showcase/ >> /var/log/showcase/boot.log 2>&1
 In order to run this scenario, we have to add the ability to disable auto start from sbt native packager. 
 
 
+### Remarks 
+
+#### play.pid extra management : 
+
+Sometimes, for some reasons `paly.pid` remains after a failed app install. This prevents the next install from working right. 
+
+To avoid this behavior we added the following ansible task :
+
+```
+if test -f /var/run/showcase/play.pid; then test -d /proc/$(</var/run/showcase/play.pid) || rm -rf /var/run/showcase; fi
+```
+
+It consists on the following : if `play.pid` is present and the app is not running, then remove `play.pid` 
