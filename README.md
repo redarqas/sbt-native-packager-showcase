@@ -34,7 +34,7 @@ install app => ansible provision => start app
 
 #### V 1.1.0 :
 
-#### Provision first : (tag -  )
+#### Scenario 1, Provision first : (tag - v1.1.0_scn1)
 
 native packager starts the app automatically, then we changed our wanted scenario to : 
 
