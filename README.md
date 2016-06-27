@@ -81,6 +81,8 @@ start-stop-daemon --chdir /var/novapost/showcase --chuid nova --pidfile /var/run
 Bad root server path: /var/novapost/showcase/ >> /var/log/showcase/boot.log 2>&1
 ```
 
+#### Scenario 2, Install first : (tag - v1.2.0-M3_scn2)
 
+In order to run this scenario, we have to add the ability to disable auto start from sbt native packager. 
 
 
